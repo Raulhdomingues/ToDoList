@@ -1,0 +1,98 @@
+body {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  background-color: #f4f4f4;
+}
+.container {
+  width: 80%;
+  margin: 0 auto;
+}
+h1 {
+  color: #333;
+}
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+input[type="text"] {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 100%;
+  margin-bottom: 10px;
+}
+button {
+  padding: 10px 20px;
+  color: white;
+  background-color: #007BFF;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 5px;
+}
+button:hover {
+  background-color: #0056b3;
+}
+
+#projectList {
+  padding-left: 0;
+}
+
+.project {
+  background-color: white;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+}
+.project.complete {
+  text-decoration: line-through;
+}
+.project strong {
+  color: #007BFF;
+}
+.project span {
+  flex: 1;
+}
+.removeButton {
+  background-color: #dc3545;
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+}
+#progressBar {
+  width: 100%;
+  background-color: #f3f3f3;
+  border-radius: 5px;
+  padding: 3px;
+  margin-bottom: 20px;
+}
+#progressBar div {
+  height: 20px;
+  background-color: #007BFF;
+  width: 0%;
+  border-radius: 3px;
+}
+
+
+.swal2-modal {
+  width: 30%; 
+}
+
+#swal2-input {
+  width: 90%;
+  margin: 15px auto;
+}
+
+.swal2-confirm.swal2-styled {
+  background-color: #007BFF;
+}
