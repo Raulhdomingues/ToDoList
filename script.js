@@ -1,18 +1,34 @@
 const input = document.querySelector('#projectName');
 const listaContainer = document.querySelector('#projectList');
 const botaoAdicionar = document.querySelector('#adicionar');
+const formulario = document.querySelector('#formulario');
 
-botaoAdicionar.addEventListener('submit', (e) => {
+formulario.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  
+  //validação para não incluir tarefa já existente (NÃO CONCLUÍDO)
   if(input.value !== '') {
     const itensExistentes = Array.from(listaContainer.querySelectorAll('.textoItem'));
-    const valorInput = input.value.trim();
-
-    const valorJaExiste = itensExistentes.some(item => item.textContent.trim() === valorInput);
-
+    const valorJaExiste = itensExistentes.some(item => item.textContent === input.value);
     if (valorJaExiste) {
       alert('Este valor já existe na lista!');
     }
     
+    try {
+      const data = { descricao: input.value };
+
+      await fetch('/api/criar-registro', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data),
+      });
+    } catch (error) {
+      console.error('Erro:', error);
+      alert('Ocorreu um erro ao salvar a tarefa');
+    }
+
     const novoItem = `<li class="project">
     <span class="textoItem">${input.value}</span>
     <button onclick='editar()'>Editar</button>
@@ -22,13 +38,45 @@ botaoAdicionar.addEventListener('submit', (e) => {
     
     listaContainer.innerHTML += novoItem;
     
-    
     input.value = '';
   } else {
-    e.preventDefault();
     alert('Porfavor, insira uma tarefa!')
   }
 });
+
+
+
+const carregarTarefas = async () => {
+  try {
+    const response = await fetch('/api/tarefas');
+    if (!response.ok) {
+      throw new Error('Erro ao buscar as tarefas:', response.status);
+    }
+    const tarefas = await response.json();
+    // // Limpa a lista antes de adicionar os novos itens
+    // listaContainer.innerHTML = '';
+    
+    // Adiciona os itens da lista à interface
+    tarefas.forEach(tarefa => {
+      const novoItem = `<li class="project" data-id="${tarefa._id}">
+        <span class="textoItem">${tarefa.descricao}</span>
+        <button onclick='editar()'>Editar</button>
+        <button onclick='feito()'>Feito</button>
+        <button onclick='remover()' class="removeButton">Remover</button>
+      </li>`;
+      listaContainer.innerHTML += novoItem;
+    });
+  } catch (error) {
+    console.error('Erro:', error.message);
+    alert('Ocorreu um erro ao buscar as tarefas');
+  }
+};
+
+// Chama a função para carregar as tarefas assim que a página é carregada
+document.addEventListener('DOMContentLoaded', carregarTarefas);
+
+
+
 
 function editar() {
   const { value: text } = Swal.fire({
@@ -57,16 +105,18 @@ function editar() {
   })
 }
 
+// function remover(event) {
+//   const id = event.target.closest('.project').dataset.id;
+// }
 
 
 
-// editButtons.forEach(button => {
-//   button.addEventListener('click', () => {
-//     const listItem = button.parentElement;
-//     const itemText = listItem.querySelector('.item');
-//     const newText = prompt('Editar pendência:', itemText.textContent);
-//   });
-// });
+
+
+
+
+
+
 
 
 
