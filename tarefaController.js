@@ -1,13 +1,14 @@
-const Tarefa = require('../model/tarefa');
+const Tarefa = require('../model/tarefa.js');
 
-exports.adicionarTarefa = async (req, res) => {
-    const { descricao } = req.body;
-  
+const tarefaController = {
+  adicionarTarefa: async (req, res) => {
     try {
-      const novaTarefa = new Tarefa({ descricao });
-      await novaTarefa.save();
+      const novaTarefa = await Tarefa.create(req.body);
       res.status(201).json(novaTarefa);
     } catch (err) {
       res.status(400).json({ message: err.message });
     }
-  };
+  }
+}
+
+module.exports = tarefaController;
